@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<!--
+    This launch file can be used to start the PaSLAM demonstration
+    It starts the slam node, a rosbag and rviz
+-->
+<launch>
+
+
+    <!-- to set the path from our customs models -->
+    <env name="GAZEBO_MODEL_PATH" value="$(find pa_mobile_robot)/simulation/models/" />
+
+
+    <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+    <arg name="paused"       default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui"          default="true"/>
+    <arg name="headless"     default="false"/>
+    <arg name="debug"        default="false"/>
+    <arg name="node_start_delay"        default="10"/>
+    <arg name="model"        default="$(find pa_mobile_robot)/simulation/urdf/differential_robot.xacro"/>
+    <!-- We resume the logic in empty_world.launch -->
+
+
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name"   value="$(find pa_mobile_robot)/simulation/worlds/simple.world"/>
+        <arg name="debug"        value="$(arg debug)" />
+        <arg name="gui"          value="$(arg gui)" />
+        <arg name="paused"       value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="headless"     value="$(arg headless)"/>
+    </include>
+
+    <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
+
+    
+     <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+
+     <!-- NODES -->
+
+    <!-- The rviz node with the demo configuration -->
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find pa_mobile_robot)/rviz/pa_exploration_gazebo.rviz">
+    </node>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+          args="-z 0.0 -unpause -urdf -model TEST_Drive -param robot_description"/> 
+
+    <node pkg="pa_mobile_robot" type="odom2path_node" name="true_odom_path_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' ">
+        <param name="base_link_name"       type="string" value="/differential_robot_odom"/>
+        <param name="path_topic_name"      type="string" value="/odom2path/true_path"/>
+        <param name="path_publishing_rate" type="int"    value="10"/>
+        <param name="odom_topic_name"      type="string" value="/ground_truth/state"/>
+    </node>
+
+    <!-- The SLAM node -->
+    <node name="pa_exploration_node" type= "pa_exploration_node" pkg="pa_mobile_robot" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' ">
+        <param name="markers_frame_name"    value="/differential_robot_odom" />
+        <param name="markers_namespace"     value="/markers_namespace" />
+        <param name="path_topic_name"       value="/path_visualization_marker" />
+        <param name="odom_topic_name"       value="/ground_truth/state" />
+        <param name="scan_topic_name"       value="/differiential_robot/scan" />
+        <param name="map_topic_name"        value="/exploration_map" />
+        <param name="map_frame_name"        value="/differential_robot_odom" />
+        <param name="twist_topic_name"      value="/differential_robot/cmd_vel" />
+        <param name="linear_speed"          value="0.3" />
+        <param name="angular_speed"         value="0.7" />
+        <param name="publish_explomap_rate" value="20" />
+        <param name="map_height"            value="200" />
+        <param name="map_width"             value="200" />
+        <param name="map_resolution"        value="0.20" />
+        <param name="update_twist_rate"     value="1" />
+    </node>
+
+</launch>
