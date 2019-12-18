@@ -31,6 +31,9 @@ class PaExplorationMap {
         int         get_id_from_cell(int x, int y) const;
         int         get_id_from_cell(const PaPoint2Di& point) const;
 
+        void        set_cell_to_unknown(const PaPoint2Di& point);
+        void        set_cell_to_obstacle(const PaPoint2Di& point);
+
         int         get_x_cell_from_world(double x) const;
         int         get_y_cell_from_world(double y) const;
 

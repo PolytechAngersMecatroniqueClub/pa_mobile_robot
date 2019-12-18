@@ -73,6 +73,16 @@ double PaExplorationMap::get_y_world_from_cell(int cy) const{
     return (cy+0.5) * _resolution + _mapPosY;
 }
 
+
+void PaExplorationMap::set_cell_to_unknown(const PaPoint2Di& point){
+    _map.data[get_id_from_cell(point)] = PA_UNKNOWN;
+}
+
+void PaExplorationMap::set_cell_to_obstacle(const PaPoint2Di& point){
+    _map.data[get_id_from_cell(point)] = PA_OBSTACLE;
+}
+
+
 PaPoint2Di PaExplorationMap::getClosestFrontier_from_cell(const PaPoint2Di cell){
     double dst = -1;
     PaPoint2Di closest = cell;

@@ -145,6 +145,35 @@ void publish_astar_path(){
     astar_path_vis_pub.publish( markers );
 }
 
+void publish_astar_target(const PaPoint2Di& target){
+    
+    markers.markers[0].header.frame_id = markers_frame_name.c_str();
+    markers.markers[0].header.stamp = ros::Time();
+    markers.markers[0].ns = markers_namespace.c_str();
+    markers.markers[0].id = 0;
+    markers.markers[0].type = visualization_msgs::Marker::SPHERE;
+    markers.markers[0].action = visualization_msgs::Marker::ADD;
+    markers.markers[0].pose.position.x = explo_map.get_x_world_from_cell(target.getX());
+    markers.markers[0].pose.position.y = explo_map.get_y_world_from_cell(target.getY());
+    markers.markers[0].pose.position.z = 0.1;
+    markers.markers[0].pose.orientation.x = 0.0;
+    markers.markers[0].pose.orientation.y = 0.0;
+    markers.markers[0].pose.orientation.z = 0.0;
+    markers.markers[0].pose.orientation.w = 0.0;
+    markers.markers[0].scale.x = 0.1;
+    markers.markers[0].scale.y = 0.1;
+    markers.markers[0].scale.z = 0.1;
+    markers.markers[0].color.a = 1.0; // Don't forget to set the alpha!
+    markers.markers[0].color.r = 1.0;
+    markers.markers[0].color.g = 0.0;
+    markers.markers[0].color.b = 0.0;
+
+    for(int i=1; i < markers.markers.size(); i++){
+        markers.markers[i].action = 2;
+    }
+    astar_path_vis_pub.publish( markers );
+}
+
 // to transform a pitch/roll/yaw value to a quaternion
 geometry_msgs::Quaternion toQuaternion(double pitch, double roll, double yaw){
     geometry_msgs::Quaternion q;
@@ -259,6 +288,11 @@ void exploration_iteration(const sensor_msgs::LaserScan &scan, const geometry_ms
             PaPoint2Di target = explo_map.getClosestFrontier_from_cell(robot);
             if(robot!=target){
                 astar_path = p_astar->find_path(robot, target);
+                if(astar_path.size() == 0){
+                    publish_astar_target(target);
+                    // explo_map.set_cell_to_unknown(target);
+                    explo_map.set_cell_to_obstacle(target);
+                }
             }else{
                 ROS_INFO("No more to explore...");
             }
