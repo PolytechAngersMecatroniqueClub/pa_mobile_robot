@@ -86,14 +86,14 @@ std::vector<PaPoint2Di> PaAStar::find_path(const PaPoint2Di& start, const PaPoin
     }
     std::vector<PaPoint2Di> path_PaPoint2Di(0);
     if(flag_found_path == true){
-        ROS_INFO("PaAStar::target found!");
+        ROS_INFO("PaAStar::target found!  %s -> %s", start.to_string().c_str(), target.to_string().c_str());
         PaPoint2Di current_pose = _closed[_closed.size()-1];
         while(current_pose != start){
             path_PaPoint2Di.push_back(current_pose);
             current_pose = _nodes[_pmap->get_id_from_cell(current_pose)].getParentPosition();
         }
     }else{
-        ROS_WARN("PaAStar::target not found!");
+        ROS_WARN("PaAStar::target not found! %s -> %s", start.to_string().c_str(), target.to_string().c_str());
     }
     return path_PaPoint2Di;
 }

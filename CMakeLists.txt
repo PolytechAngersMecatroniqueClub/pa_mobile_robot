@@ -40,14 +40,14 @@ add_executable(odom2path_node src/tools/odom2path_node.cpp
 )
 
 ## Declare a C++ executable
-add_executable(pa_slam_node pa_slam_node.cpp
+add_executable(pa_slam_node src/pa_slam_node.cpp
     src/slam/PaSlam_Costmap.cpp
     src/slam/PaSlam_Map.cpp
     src/slam/PaSlam.cpp
     )
 
 ## Declare a C++ executable
-add_executable(pa_exploration_node pa_exploration_node.cpp
+add_executable(pa_exploration_node src/pa_exploration_node.cpp
     src/exploration/PaPoint2Di.cpp
     src/exploration/PaNode.cpp
     src/exploration/PaExplorationMap.cpp
@@ -55,7 +55,7 @@ add_executable(pa_exploration_node pa_exploration_node.cpp
     )
 
 ## Declare a C++ executable
-add_executable(pa_exploration_slam_node pa_exploration_slam_node.cpp
+add_executable(pa_exploration_slam_node src/pa_exploration_slam_node.cpp
     src/exploration/PaPoint2Di.cpp
     src/exploration/PaNode.cpp
     src/exploration/PaExplorationMap.cpp

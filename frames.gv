@@ -1,0 +1,11 @@
+digraph G {
+"base_link" -> "laser"[label="Broadcaster: /pa_exploration_slam_node\nAverage rate: 23.128 Hz\nMost recent transform: 1576678457.351 ( -0.063 sec old)\nBuffer length: 5.016 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1576678457.287"[ shape=plaintext ] ;
+ }->"paslam_baselink";
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1576678457.287"[ shape=plaintext ] ;
+ }->"base_link";
+}

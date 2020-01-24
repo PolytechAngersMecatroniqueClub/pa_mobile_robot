@@ -53,7 +53,7 @@
     <!-- NODES -->
 
 
-    <machine name="ibotKaradoc" address="192.168.49.1" user="ibot" password="tobi" env-loader="~/catkin_ws/src/config/config.sh" default="false"/>
+    <machine name="ibotKaradoc" address="192.168.49.2" user="ibot" password="tobi" env-loader="~/catkin_ws/src/config/config.sh" default="false"/>
 
       <node machine="ibotKaradoc" name="rplidarNode"  pkg="rplidar_ros"  type="rplidarNode" output="screen" >
           <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
@@ -72,7 +72,5 @@
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find pa_mobile_robot)/rviz/pa_exploration_slam_karadoc.rviz">
     </node>
 
-
-    <!-- <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 3.14159 0 0 /laser 1"/> -->
 
 </launch>
