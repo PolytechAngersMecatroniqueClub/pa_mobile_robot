@@ -36,19 +36,6 @@
         <param name="initial_theta"       value="0.0" />
         <param name="lidar_msg_queue"       value="100" />
 
-        <!-- EXPLORATION -->
-        <param name="markers_frame_name"    value="paslam_baselink" />
-        <param name="markers_namespace"     value="markers_namespace" />
-        <param name="astar_path_topic_name"       value="/path_visualization_marker" />
-        <param name="explo_map_topic_name"        value="/exploration_map" />
-        <param name="explo_map_frame_name"        value="paslam_baselink" />
-        <param name="twist_topic_name"      value="/cmd_vel" />
-        <param name="linear_speed"          value="-0.3" />
-        <param name="angular_speed"         value="0.1" />
-        <param name="publish_explomap_rate" value="20" />
-        <param name="explo_map_resolution"        value="0.20" />
-        <param name="update_twist_rate"     value="1" />
-
 
     <!-- NODES -->
 

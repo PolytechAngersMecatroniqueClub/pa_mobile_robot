@@ -139,11 +139,13 @@ void PaSlam_Map::cost_add_obs(int cx, int cy){
 // this function convert the x world value into x cell index
 int PaSlam_Map::get_x_cell_from_world(double x){
     int cx = (int)((x-_probmap.info.origin.position.x)/_probmap.info.resolution);
+    return cx;
 }
 
 // this function convert the y world value into y cell index
 int PaSlam_Map::get_y_cell_from_world(double y){
    int cy = (int)((y-_probmap.info.origin.position.y)/_probmap.info.resolution);
+    return cy;
 }
 
 // this function allows to free the path between the robot and the detected obstacle
